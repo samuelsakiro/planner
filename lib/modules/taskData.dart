@@ -2,9 +2,34 @@ import 'package:flutter/material.dart';
 
 class TaskProvider extends ChangeNotifier {
   static final taskList = [
-    const TaskModel(id: 1, title: 'Make my bed', isFinished: false),
-    const TaskModel(id: 2, title: 'Walk the dog', isFinished: false),
-    const TaskModel(id: 3, title: 'Prepare breakfast', isFinished: false),
+    TaskModel(
+      id: 1,
+      title: 'Make my bed',
+      isFinished: false,
+      date: DateTime.now(),
+    ),
+    TaskModel(
+      id: 2,
+      title: 'Walk the dog',
+      isFinished: false,
+      date: DateTime.now(),
+    ),
+    TaskModel(
+      id: 3,
+      title: 'Prepare breakfast',
+      isFinished: false,
+      date: DateTime.now(),
+    ),
+  ];
+
+  static final dateWiseTaskList = [
+    DateWiseModel(date: DateTime.now(), tasks: taskList),
+    DateWiseModel(date: DateTime.now(), tasks: taskList),
+    DateWiseModel(date: DateTime.now(), tasks: taskList),
+    DateWiseModel(date: DateTime.now(), tasks: taskList),
+    DateWiseModel(date: DateTime.now(), tasks: taskList),
+    DateWiseModel(date: DateTime.now(), tasks: taskList),
+    DateWiseModel(date: DateTime.now(), tasks: taskList),
   ];
 
   //get taskList => _taskList;
@@ -19,24 +44,36 @@ class TaskModel {
   final int id;
   final String title;
   final bool isFinished;
+  final DateTime date;
 
   const TaskModel({
     required this.id,
     required this.title,
     required this.isFinished,
+    required this.date,
   });
 
   TaskModel copyWith({
     int? id,
     String? title,
     bool? isFinished,
+    DateTime? date,
   }) {
-
-    print('>>> COPY WITH >> $isFinished');
     return TaskModel(
       id: id ?? this.id,
       title: title ?? this.title,
       isFinished: isFinished ?? this.isFinished,
+      date: date ?? this.date,
     );
   }
+}
+
+class DateWiseModel {
+  final DateTime date;
+  final List<TaskModel> tasks;
+
+  const DateWiseModel({
+    required this.date,
+    required this.tasks,
+  });
 }

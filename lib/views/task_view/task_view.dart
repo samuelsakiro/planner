@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:planner_app/modules/taskData.dart';
+import 'package:planner_app/views/task_view/widgets/date_wise_task_list.dart';
 import 'package:planner_app/views/task_view/widgets/ongoing_task_container.dart';
 
 import 'widgets/header_app_bar.dart';
@@ -39,6 +41,18 @@ class TaskView extends StatelessWidget {
                       ),
                       SizedBox(height: 15),
                       OnGoingTaskContainer(),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 3),
+                        child: Text(
+                          'Date wise task',
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.w700,
+                            color: Color(0xFFF54748),
+                          ),
+                        ),
+                      ),
+                      DateWiseTaskList(dateWiseTasks: TaskProvider.dateWiseTaskList),
                     ],
                   ),
                 ),
