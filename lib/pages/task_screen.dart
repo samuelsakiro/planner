@@ -24,39 +24,56 @@ class TaskScreen extends StatelessWidget {
           color: Colors.white,
         ),
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          AppBarContent(),
-          BodyContent(),
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              children: [
-                DatePicker(date: 'Mon', text: '20'),
-                DatePicker(date: 'Tue', text: '20'),
-                DatePicker(date: 'Wed', text: '20'),
-                DatePicker(date: 'Thu', text: '20'),
-                DatePicker(date: 'Fri', text: '20'),
-                DatePicker(date: 'Sat', text: '20'),
-                DatePicker(date: 'Sun', text: '20'),
-              ],
+      body: ChangeNotifierProvider(
+        create: (context) => TaskProvider(),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            AppBarContent(),
+            BodyContent(),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: [
+                  DatePicker(date: 'Mon', text: '20'),
+                  DatePicker(date: 'Tue', text: '20'),
+                  DatePicker(date: 'Wed', text: '20'),
+                  DatePicker(date: 'Thu', text: '20'),
+                  DatePicker(date: 'Fri', text: '20'),
+                  DatePicker(date: 'Sat', text: '20'),
+                  DatePicker(date: 'Sun', text: '20'),
+                ],
+              ),
             ),
-          ),
-          Expanded(child: Container(
-            child: Consumer<TaskData>(builder:(context, value, child){
-              return ListView.builder(
-                itemCount: value.taskList.length,
-                itemBuilder: (context, index) {
-                return Container(child: TaskTile(onChanged: Provider.of<TaskData>(context).boxStateChanged(false)
-                , taskCompleted: value.taskList[index][1], taskName: value.taskList[index][0]),);
-              });
-            }
-              
-          
-            ),
-          ),)
-        ],
+            Expanded(
+              child: Container(
+                child: Consumer<TaskProvider>(
+                  builder: (context, taskData, child) {
+                    final List<TaskModel> tasks = TaskProvider.taskList;
+
+                    return ListView.builder(
+                      itemCount: tasks.length,
+                      itemBuilder: (context, index) {
+                        return Container(
+                          child: TaskTile(
+                            onChanged: (value) {
+                              final isFinished = tasks[index].isFinished;
+
+                              return taskData
+                                  .boxStateChanged(!isFinished, index);
+                            },
+                            taskCompleted: tasks[index].isFinished,
+                            taskName: tasks[index].title,
+                          ),
+                        );
+                      },
+                    );
+                  },
+                ),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
